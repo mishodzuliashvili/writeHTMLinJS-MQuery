@@ -1,12 +1,20 @@
 var arr = []
-const Body = (deletePost) => {
+const addPost = (event) => {
+if (event.keyCode == 13) {
+    db.collection("messages").add({
+        createdAt: firebase.firestore.Timestamp.now(),
+        photoURL: "",
+        text: $("#myInput").val(),
+        uid: 0
+    })
+    }
+}
+const Body = () => {
     return <>
-        #{
-            Spinner()
-        }#
         <div class="bodyMain">
-            #{
-                arr.map((doc) => Article(doc,deletePost)).join('')
-        }#</div>
+            <input id="myInput" onkeypress="addPost(event)" placeholder="Some text.." />
+            ${
+                arr.map((doc) => Article(doc)).join('')
+            }</div>
     </>
 }

@@ -1,26 +1,14 @@
-`
-scripts/firebase.js%
-components/Spinner.js%
-components/Article.js%
-components/Body.js%
-`
-$endimports
+["scripts/firebase.js","components/Article.js","components/Body.js"]
 
-function renderIn(obj, root) {
-    $(root).html(obj);
-}
-const deletePost = (id,key) => {
-    db.collection("articles").doc(id).delete().then(() => {
-        $(key).remove();
-    })
-}
-db.collection("articles").get().then((querySnapshot) => {
+db.collection("messages").orderBy("createdAt", "desc").limit(7).onSnapshot((querySnapshot) => {
+    arr=[]
     querySnapshot.forEach((doc) => {
         arr.push({ ...doc.data(), id: doc.id })
-    });
-}).then(() => {
-    renderIn(Body(deletePost), "#root")
-    setTimeout(() => {
-        $(".loadingPageBody").hide()
-    }, 2000);
+    })
+
+    MQuery.render(Body(deletePost),$("#root"))
+        setTimeout(() => {
+            $(".loadingPageBody").addClass("hidden")
+        }, 1000);
+    
 })
